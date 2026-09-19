@@ -1,6 +1,5 @@
-// Reveal on scroll, and the live strip under the hero: a sentence is
-// "spoken", then the chip shows what Lest made of it. ?static in the URL
-// reveals everything at once (for screenshots).
+// Reveal on scroll, and the hero demo: a sentence is "spoken", then the
+// reminder resolves under it. ?static reveals everything at once.
 (function () {
   const all = new URLSearchParams(location.search).has('static');
   const io = new IntersectionObserver((entries) => {
@@ -11,19 +10,23 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches || all;
   const prompt = document.getElementById('prompt');
   const mic = document.getElementById('mic');
-  const chip = document.getElementById('chip');
-  if (!prompt || !mic || !chip) return;
+  const hint = document.getElementById('hint');
+  const card = document.getElementById('card');
+  const title = document.getElementById('cardTitle');
+  const meta = document.getElementById('cardMeta');
+  if (!prompt || !mic || !card) return;
 
+  const IDLE = 'What do you want to remember?';
   const EXAMPLES = [
-    { said: 'Buy hot sauce next time I’m at Target', chip: 'at Target · 0.4 mi' },
-    { said: 'Record the next Texans game', chip: 'Sun 12:00 PM · looked up' },
-    { said: 'Take the bins out when I get home', chip: 'at home' },
-    { said: 'Umbrella when I leave the house', chip: 'when leaving home' },
-    { said: 'Call the vet tomorrow at nine', chip: 'tomorrow 9:00 AM' },
+    { said: 'Buy hot sauce next time I’m at Target', title: 'Buy hot sauce', meta: 'at Target · 0.4 mi' },
+    { said: 'Record the next Texans game', title: 'Record the next Texans game', meta: 'Sun 12:00 PM' },
+    { said: 'Umbrella when I leave the house', title: 'Umbrella', meta: 'when leaving home' },
+    { said: 'Call the vet tomorrow at nine', title: 'Call the vet', meta: 'tomorrow 9:00 AM' },
   ];
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
   async function type(text) {
+    prompt.classList.add('hearing');
     prompt.textContent = '';
     for (const ch of text) {
       prompt.textContent += ch;
@@ -34,18 +37,21 @@
   async function run() {
     if (reduce) return;
     let i = 0;
-    await wait(2200);
+    await wait(1600);
     for (;;) {
       const ex = EXAMPLES[i++ % EXAMPLES.length];
-      chip.classList.add('hidden');
-      mic.classList.add('rec');
+      mic.classList.add('rec'); hint.textContent = 'Tap to stop';
       await type(ex.said);
+      await wait(650);
+      mic.classList.remove('rec'); hint.textContent = 'Tap to capture';
+      prompt.classList.remove('hearing'); prompt.textContent = IDLE;
+      card.classList.add('hidden');
+      await wait(420);
+      title.textContent = ex.title; meta.textContent = ex.meta; meta.classList.add('found');
+      card.classList.remove('hidden');
+      await wait(3000);
+      meta.classList.remove('found');
       await wait(500);
-      mic.classList.remove('rec');
-      await wait(350);
-      chip.textContent = ex.chip;
-      chip.classList.remove('hidden');
-      await wait(3200);
     }
   }
   run();
