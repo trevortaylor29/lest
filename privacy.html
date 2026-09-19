@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lest Privacy Policy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="./">Support</a><a href="privacy.html" aria-current="page">Privacy</a><a href="terms.html">Terms</a></nav>
+<h1>Privacy Policy</h1>
+<p class="muted">Effective September 18, 2026</p>
+
+<p>Lest is a voice-first reminder app for iPhone. This policy says what leaves your phone, where it goes, and why. It is written to be read.</p>
+
+<h2>The short version</h2>
+<ul>
+<li>Your reminders, transcripts, places and contacts live on your iPhone. There is no account and no sign-up.</li>
+<li>When you capture a reminder, the words you said are sent to our server and on to Anthropic's Claude to be turned into a structured reminder. They are processed, not stored, and not used to train AI models.</li>
+<li>Your precise location never leaves the phone. Place reminders use iOS's own on-device region monitoring. Only your city is sent with a capture, so "the store" can mean the one near you.</li>
+<li>We keep counts of how many requests each anonymous install makes, so nobody can run up our bills, and a handful of onboarding milestones so we can tell whether the app is working for new users.</li>
+<li>Payments are handled by Apple. We never see your card. RevenueCat manages the subscription on our behalf.</li>
+</ul>
+
+<h2>What stays on your phone</h2>
+<p>Reminder text and transcripts, times and places, resolved coordinates and addresses, the places you have picked for "the gym" or "work", your home location, completion history, and your settings. All of it is stored in a local database on the device. Contacts are read on the device only when you send a reminder to a friend, to match the name you said; the contact list is never uploaded.</p>
+<p>Speech is transcribed by iOS on the device. Audio is never sent anywhere.</p>
+
+<h2>What is sent when you capture a reminder</h2>
+<p>To turn "buy hot sauce at Walmart" into a reminder that fires at Walmart, the app sends our server (hosted by Supabase) the following:</p>
+<ul>
+<li>the transcript text of what you said;</li>
+<li>the current time and your time zone;</li>
+<li>your current city, as a name, never coordinates;</li>
+<li>a random anonymous identifier for this install (your Support ID).</li>
+</ul>
+<p>Our server sends the transcript, time and city to <a href="https://www.anthropic.com/legal/privacy">Anthropic</a>, whose Claude models parse it. Anthropic states that API inputs are not used to train its models and are retained only as long as needed to provide the service.</p>
+<p>When a reminder depends on an event ("the next Texans game", "the Severance finale"), the app looks the time up. For sports teams the query goes to ESPN's public schedule service and contains only the team name. For anything else the query is sent to Anthropic with permission to run a web search. Found answers are cached on our server, keyed by the question, not by you, so the next person asking gets the answer without a new search.</p>
+
+<h2>What we keep on our server</h2>
+<ul>
+<li><strong>Usage counts.</strong> For each anonymous identifier, the number of requests and lookups per day. This is how we cap costs and stop abuse. Kept for up to 12 months.</li>
+<li><strong>Decisions.</strong> When a lookup is refused or fails, we record that it happened, the query, and a short excerpt of the transcript, against the anonymous identifier, so support can see why. Kept for up to 12 months.</li>
+<li><strong>Subscription status.</strong> Whether the anonymous identifier has an active trial or subscription, from RevenueCat, cached for a few hours at a time.</li>
+<li><strong>Onboarding milestones.</strong> Events such as "first open", "paywall shown" and "trial started", against the anonymous identifier, so we can tell whether new users get through setup. No reminder content is included.</li>
+</ul>
+<p>None of this is linked to your name, email, Apple ID or phone number. We do not sell data, run ads, or share data with data brokers.</p>
+
+<h2>Purchases</h2>
+<p>Subscriptions are sold through Apple's App Store. Apple processes the payment and holds your billing details; we never see them. <a href="https://www.revenuecat.com/privacy">RevenueCat</a> receives the App Store transaction and your anonymous identifier to manage the subscription and tell the app whether it is active. Refunds are handled by Apple.</p>
+
+<h2>Crash reports</h2>
+<p>If crash reporting is enabled in a build, crashes are sent to Sentry with the device model, iOS version, app version and the technical trace. Reminder content is not included.</p>
+
+<h2>Permissions</h2>
+<ul>
+<li><strong>Location, Always:</strong> so place reminders can fire when the app is closed. Region monitoring is done by iOS on the device.</li>
+<li><strong>Microphone and speech recognition:</strong> to capture reminders by voice. Transcription happens on the device.</li>
+<li><strong>Notifications:</strong> to deliver reminders.</li>
+<li><strong>Contacts:</strong> only when you send a reminder to a friend, to match a name.</li>
+</ul>
+<p>Every permission can be changed in iOS Settings at any time.</p>
+
+<h2>Children</h2>
+<p>Lest is not directed at children under 13 and we do not knowingly collect information from them.</p>
+
+<h2>Your choices</h2>
+<p>"Reset everything" in Settings deletes all app data on the phone and abandons the anonymous identifier; a new one is created on the next launch. To have the server-side records tied to a Support ID deleted, email <a href="mailto:trev@holliday.io">trev@holliday.io</a> with the ID.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes in a way that matters, the app will say so. The effective date at the top is the version you are reading.</p>
+
+<h2>Contact</h2>
+<p><a href="mailto:trev@holliday.io">trev@holliday.io</a></p>
+
+<hr>
+<p class="small muted"><a href="./">Support</a> · <a href="terms.html">Terms of use</a></p>
+</main>
+</body>
+</html>
