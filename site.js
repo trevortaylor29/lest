@@ -11,6 +11,7 @@
   const prompt = document.getElementById('prompt');
   const mic = document.getElementById('mic');
   const hint = document.getElementById('hint');
+  const wave = document.getElementById('wave');
   const card = document.getElementById('card');
   const title = document.getElementById('cardTitle');
   const meta = document.getElementById('cardMeta');
@@ -40,10 +41,10 @@
     await wait(1600);
     for (;;) {
       const ex = EXAMPLES[i++ % EXAMPLES.length];
-      mic.classList.add('rec'); hint.textContent = 'Tap to stop';
+      mic.classList.add('rec'); hint.classList.add('off'); wave.classList.add('on');
       await type(ex.said);
       await wait(650);
-      mic.classList.remove('rec'); hint.textContent = 'Tap to capture';
+      mic.classList.remove('rec'); hint.classList.remove('off'); wave.classList.remove('on');
       prompt.classList.remove('hearing'); prompt.textContent = IDLE;
       card.classList.add('hidden');
       await wait(420);
@@ -55,4 +56,32 @@
     }
   }
   run();
+  story();
+
+  // Pinned story: the step that reaches mid-screen sets the phone's state.
+  function story() {
+    const phone = document.getElementById('storyPhone');
+    const steps = [...document.querySelectorAll('.story-steps li')];
+    const sp = document.getElementById('sPrompt');
+    if (!phone || !steps.length) return;
+    const SAID = 'Buy hot sauce next time I\u2019m at Target';
+    let typed = false;
+    async function typeOnce() {
+      if (typed) return; typed = true;
+      sp.textContent = '';
+      for (const ch of SAID) { sp.textContent += ch; await wait(ch === ' ' ? 55 : 34 + Math.random() * 36); }
+    }
+    function set(n) {
+      phone.dataset.state = String(n);
+      steps.forEach((li) => li.classList.toggle('active', li.dataset.step === String(n)));
+      if (n === 1 && !reduce) typeOnce(); else if (n === 1) sp.textContent = SAID;
+    }
+    const forced = new URLSearchParams(location.search).get('story');
+    if (forced) { set(Number(forced)); document.documentElement.style.scrollBehavior = 'auto'; steps[Number(forced) - 1].scrollIntoView({ block: 'center' }); return; }
+    const so = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) set(Number(e.target.dataset.step));
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    steps.forEach((li) => so.observe(li));
+    set(1);
+  }
 })();

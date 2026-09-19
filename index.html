@@ -35,7 +35,7 @@
 <section class="hero">
   <div class="hero-copy reveal">
     <p class="eyebrow">For iPhone</p>
-    <h1>Reminders <span class="accent">when you need them.</span></h1>
+    <h1><span class="w" style="--i:0"><span>Reminders</span></span> <span class="w accent" style="--i:1"><span>when</span></span> <span class="w accent" style="--i:2"><span>you</span></span> <span class="w accent" style="--i:3"><span>need</span></span> <span class="w accent" style="--i:4"><span>them.</span></span></h1>
     <p class="lede">Just say it. Lest works out the time or the place and brings it back when it matters.</p>
     <div class="cta-row">
       <a class="store" href="https://apps.apple.com/app/id6770690900" aria-label="Download on the App Store">
@@ -52,7 +52,7 @@
         <div class="statusbar"><span>9:41</span><span class="island"></span><span class="sig"></span></div>
         <p class="prompt" id="prompt">What do you want to remember?</p>
         <div class="mic" id="mic"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
-        <p class="hint" id="hint">Tap to capture</p>
+        <div class="under"><p class="hint" id="hint">Tap to capture</p><div class="wave" id="wave"><i></i><i></i><i></i><i></i><i></i></div></div>
         <div class="recent">
           <p class="label">Recent</p>
           <div class="card new" id="card"><div class="card-title" id="cardTitle">Buy hot sauce</div><div class="card-meta" id="cardMeta">at Target · 0.4 mi</div></div>
@@ -91,14 +91,42 @@
   </div>
 </section>
 
-<!-- How it works -->
+<!-- How it works: the phone sticks, the steps scroll, the screen tells the story -->
 <section class="how" id="how">
   <div class="wrap">
     <h2 class="reveal">How it works</h2>
-    <ol class="steps">
-      <li class="reveal"><span class="num">1</span><h3>You say it</h3><p>Transcribed on your iPhone. No audio leaves the phone.</p></li>
-      <li class="reveal"><span class="num">2</span><h3>Lest sets it</h3><p>It finds the when or the where in your sentence: the Target near you, the time of the game.</p></li>
-      <li class="reveal"><span class="num">3</span><h3>It fires there</h3><p>When you arrive, or when the time comes. One notification, in your words.</p></li>
+  </div>
+  <div class="wrap story">
+    <div class="story-phone reveal" aria-hidden="true">
+      <div class="phone small" id="storyPhone" data-state="1">
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span class="island"></span><span class="sig"></span></div>
+          <div class="s s1">
+            <p class="prompt hearing" id="sPrompt">&nbsp;</p>
+            <div class="mic rec"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
+            <div class="under"><div class="wave on"><i></i><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="s s2">
+            <p class="prompt">What do you want to remember?</p>
+            <div class="mic"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
+            <div class="under"><p class="hint">Tap to capture</p></div>
+            <div class="recent"><p class="label">Recent</p>
+              <div class="card new pop"><div class="card-title">Buy hot sauce</div><div class="card-meta found"><span class="ping"></span>at Target · 0.4 mi</div></div>
+              <div class="card"><div class="card-title">Feed the dog</div><div class="card-meta">at home</div></div>
+            </div>
+          </div>
+          <div class="s s3 lock">
+            <p class="lock-date">Saturday, September 19</p>
+            <p class="lock-time">12:35</p>
+            <div class="banner"><img src="/assets/icon.png" alt="" width="34" height="34"><div><b>Lest</b><span>Buy hot sauce at Target</span></div><em>now</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ol class="story-steps">
+      <li data-step="1"><span class="num">1</span><h3>You say it</h3><p>Transcribed on your iPhone. No audio leaves the phone.</p></li>
+      <li data-step="2"><span class="num">2</span><h3>Lest sets it</h3><p>It finds the when or the where in your sentence: the Target near you, the time of the game.</p></li>
+      <li data-step="3"><span class="num">3</span><h3>It fires there</h3><p>When you arrive, or when the time comes. One notification, in your words.</p></li>
     </ol>
   </div>
 </section>
