@@ -1,87 +1,136 @@
-// Reveal on scroll, and the hero demo: a sentence is "spoken", then the
-// reminder resolves under it. ?static reveals everything at once.
+// getlest.app
+//
+// Four jobs: split the headline into words that climb out of a mask, reveal
+// blocks as they arrive, run every parallax layer off one rAF loop, and drive
+// the pinned phone so its clip matches the chapter you are reading.
+//
+// ?static forces everything to its finished state, which is how the page gets
+// screenshotted. ?ch=N jumps to one chapter.
 (function () {
-  const all = new URLSearchParams(location.search).has('static');
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach((el) => (all ? el.classList.add('in') : io.observe(el)));
+  var params = new URLSearchParams(location.search);
+  var STATIC = params.has('static');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var still = STATIC || reduce;
 
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches || all;
-  const prompt = document.getElementById('prompt');
-  const mic = document.getElementById('mic');
-  const hint = document.getElementById('hint');
-  const wave = document.getElementById('wave');
-  const card = document.getElementById('card');
-  const title = document.getElementById('cardTitle');
-  const meta = document.getElementById('cardMeta');
-  if (!prompt || !mic || !card) return;
+  // ---- headline: one mask per word ----------------------------------------
+  document.querySelectorAll('[data-words]').forEach(function (h) {
+    var i = 0;
+    h.innerHTML = h.innerHTML.replace(/([^<>\s]+)(?![^<]*>)/g, function (word) {
+      return '<span class="w" style="--i:' + i++ + '"><i>' + word + '</i></span>';
+    });
+    if (still) {
+      h.querySelectorAll('.w > i').forEach(function (el) {
+        el.style.transform = 'none';
+        el.style.animation = 'none';
+      });
+    }
+  });
 
-  const IDLE = 'What do you want to remember?';
-  const EXAMPLES = [
-    { said: 'Buy hot sauce next time I’m at Target', title: 'Buy hot sauce', meta: 'at Target · 0.4 mi' },
-    { said: 'Record the next Texans game', title: 'Record the next Texans game', meta: 'Sun 12:00 PM' },
-    { said: 'Umbrella when I leave the house', title: 'Umbrella', meta: 'when leaving home' },
-    { said: 'Call the vet tomorrow at nine', title: 'Call the vet', meta: 'tomorrow 9:00 AM' },
-  ];
-  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  // ---- reveal on arrival ---------------------------------------------------
+  var reveals = document.querySelectorAll('.reveal');
+  if (still) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    reveals.forEach(function (el) { ro.observe(el); });
+  }
 
-  async function type(text) {
-    prompt.classList.add('hearing');
-    prompt.textContent = '';
-    for (const ch of text) {
-      prompt.textContent += ch;
-      await wait(ch === ' ' ? 55 : 34 + Math.random() * 36);
+  // ---- only play what is on screen ----------------------------------------
+  function play(v) {
+    if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); }
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }
+  }
+  var vo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.target.classList.contains('ch')) { return; }   // the pinned phone runs itself
+      if (e.isIntersecting) { play(e.target); }
+      else if (!e.target.paused) { e.target.pause(); }
+    });
+  }, { rootMargin: '250px 0px', threshold: 0.05 });
+  document.querySelectorAll('video').forEach(function (v) { vo.observe(v); });
+
+  // ---- pinned phone: the chapter you are reading picks the clip ------------
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.chapters li'));
+  var clips = Array.prototype.slice.call(document.querySelectorAll('.phone .ch'));
+  if (chapters.length && clips.length) {
+    var setChapter = function (n) {
+      chapters.forEach(function (li) {
+        li.classList.toggle('active', li.dataset.ch === String(n));
+      });
+      clips.forEach(function (v) {
+        var on = v.dataset.ch === String(n);
+        v.classList.toggle('on', on);
+        if (on) { v.currentTime = 0; play(v); } else { v.pause(); }
+      });
+    };
+    var forced = params.get('ch');
+    if (forced !== null) {
+      setChapter(Number(forced));
+      document.documentElement.style.scrollBehavior = 'auto';
+      chapters[Number(forced)].scrollIntoView({ block: 'center' });
+    } else {
+      var co = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { setChapter(Number(e.target.dataset.ch)); }
+        });
+      }, { rootMargin: '-46% 0px -46% 0px', threshold: 0 });
+      chapters.forEach(function (li) { co.observe(li); });
+      setChapter(0);
     }
   }
 
-  async function run() {
-    if (reduce) return;
-    let i = 0;
-    await wait(1600);
-    for (;;) {
-      const ex = EXAMPLES[i++ % EXAMPLES.length];
-      mic.classList.add('rec'); hint.classList.add('off'); wave.classList.add('on');
-      await type(ex.said);
-      await wait(650);
-      mic.classList.remove('rec'); hint.classList.remove('off'); wave.classList.remove('on');
-      prompt.classList.remove('hearing'); prompt.textContent = IDLE;
-      card.classList.add('hidden');
-      await wait(420);
-      title.textContent = ex.title; meta.textContent = ex.meta; meta.classList.add('found');
-      card.classList.remove('hidden');
-      await wait(3000);
-      meta.classList.remove('found');
-      await wait(500);
-    }
-  }
-  run();
-  story();
+  // ---- parallax ------------------------------------------------------------
+  if (still) { return; }
 
-  // Pinned story: the step that reaches mid-screen sets the phone's state.
-  function story() {
-    const phone = document.getElementById('storyPhone');
-    const steps = [...document.querySelectorAll('.story-steps li')];
-    const sp = document.getElementById('sPrompt');
-    if (!phone || !steps.length) return;
-    const SAID = 'Buy hot sauce next time I\u2019m at Target';
-    let typed = false;
-    async function typeOnce() {
-      if (typed) return; typed = true;
-      sp.textContent = '';
-      for (const ch of SAID) { sp.textContent += ch; await wait(ch === ' ' ? 55 : 34 + Math.random() * 36); }
-    }
-    function set(n) {
-      phone.dataset.state = String(n);
-      steps.forEach((li) => li.classList.toggle('active', li.dataset.step === String(n)));
-      if (n === 1 && !reduce) typeOnce(); else if (n === 1) sp.textContent = SAID;
-    }
-    const forced = new URLSearchParams(location.search).get('story');
-    if (forced) { set(Number(forced)); document.documentElement.style.scrollBehavior = 'auto'; steps[Number(forced) - 1].scrollIntoView({ block: 'center' }); return; }
-    const so = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) set(Number(e.target.dataset.step));
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-    steps.forEach((li) => so.observe(li));
-    set(1);
+  var nodes = [];
+  document.querySelectorAll('[data-par], [data-pointer]').forEach(function (el) {
+    nodes.push({
+      el: el,
+      par: parseFloat(el.dataset.par || 0),
+      pt: parseFloat(el.dataset.pointer || 0),
+    });
+  });
+  if (!nodes.length) { return; }
+
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var tx = 0, ty = 0, px = 0, py = 0, ticking = false;
+
+  if (fine) {
+    window.addEventListener('pointermove', function (e) {
+      tx = (e.clientX / window.innerWidth - 0.5) * 2;
+      ty = (e.clientY / window.innerHeight - 0.5) * 2;
+      request();
+    }, { passive: true });
   }
+
+  function frame() {
+    ticking = false;
+    var h = window.innerHeight;
+    px += (tx - px) * 0.075;
+    py += (ty - py) * 0.075;
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      var r = n.el.getBoundingClientRect();
+      if (r.bottom < -h * 0.5 || r.top > h * 1.5) { continue; }
+      var x = 0, y = 0;
+      // scroll: how far this element's middle sits from the viewport's middle
+      if (n.par) { y -= ((r.top + r.height / 2) - h / 2) * n.par; }
+      if (n.pt && fine) { x += px * n.pt; y += py * n.pt; }
+      n.el.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0)';
+    }
+    if (fine && (Math.abs(tx - px) > 0.0015 || Math.abs(ty - py) > 0.0015)) { request(); }
+  }
+
+  function request() {
+    if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+  }
+
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request, { passive: true });
+  request();
 })();

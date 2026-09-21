@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lest: Voice Reminders</title>
-<meta name="description" content="Reminders when you need them. Just say it; Lest works out the time or the place and brings it back when it matters. For iPhone.">
+<meta name="description" content="Reminders when you need them. Say it once; Lest works out the time or the place and brings it back when it matters. For iPhone.">
 <meta property="og:title" content="Lest: Voice Reminders">
-<meta property="og:description" content="Reminders when you need them. Just say it; Lest works out the time or the place and brings it back when it matters.">
+<meta property="og:description" content="Reminders when you need them. Say it once; Lest works out the time or the place and brings it back when it matters.">
 <meta property="og:image" content="https://getlest.app/assets/og.png">
 <meta property="og:url" content="https://getlest.app/">
 <meta name="theme-color" content="#0a0a0a">
@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<header class="nav" id="nav">
+<header class="nav">
   <a class="brand" href="/"><img src="/assets/icon.png" alt="" width="28" height="28"><span>Lest</span></a>
   <nav>
     <a href="#kinds">What it does</a>
@@ -31,115 +31,119 @@
 
 <main>
 
-<!-- Hero: headline left, the live demo right -->
+<!-- hero -->
 <section class="hero">
-  <div class="hero-copy reveal">
-    <p class="eyebrow">For iPhone</p>
-    <h1><span class="w" style="--i:0"><span>Reminders</span></span> <span class="w accent" style="--i:1"><span>when</span></span> <span class="w accent" style="--i:2"><span>you</span></span> <span class="w accent" style="--i:3"><span>need</span></span> <span class="w accent" style="--i:4"><span>them.</span></span></h1>
-    <p class="lede">Just say it. Lest works out the time or the place and brings it back when it matters.</p>
-    <div class="cta-row">
+  <div class="glow" data-pointer="26"></div>
+  <div class="hero-copy">
+    <p class="eyebrow rise" style="--d:.05s">For iPhone</p>
+    <h1 data-words>Reminders <em>when you need them.</em></h1>
+    <p class="lede rise" style="--d:.55s">Say it once. Lest works out the time or the place, and brings it back at the moment it matters.</p>
+    <div class="cta rise" style="--d:.66s">
       <a class="store" href="https://apps.apple.com/app/id6770690900" aria-label="Download on the App Store">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.8 1.3 10.3.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.2zM13.9 5c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1.1 3 1.1.1 2.3-.6 3-1.4z"/></svg>
         <span><small>Download on the</small>App Store</span>
       </a>
-      <span class="soon">Coming soon · first month free</span>
+      <span class="soon">Coming soon &middot; first month free</span>
     </div>
   </div>
 
-  <div class="demo reveal" aria-hidden="true">
-    <div class="phone">
-      <div class="screen">
-        <div class="statusbar"><span>9:41</span><span class="island"></span><span class="sig"></span></div>
-        <p class="prompt" id="prompt">What do you want to remember?</p>
-        <div class="mic" id="mic"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
-        <div class="under"><p class="hint" id="hint">Tap to capture</p><div class="wave" id="wave"><i></i><i></i><i></i><i></i><i></i></div></div>
-        <div class="recent">
-          <p class="label">Recent</p>
-          <div class="card new" id="card"><div class="card-title" id="cardTitle">Buy hot sauce</div><div class="card-meta" id="cardMeta">at Target · 0.4 mi</div></div>
-          <div class="card"><div class="card-title">Feed the dog</div><div class="card-meta">at home</div></div>
-        </div>
-        <div class="tabs"><span class="on"></span><span></span><span></span><span></span></div>
-      </div>
+  <div class="hero-phone rise" style="--d:.3s" data-par="0.09" data-pointer="12">
+    <div class="phone" style="--pw:330px">
+      <video src="/assets/clips/hero.mp4" poster="/assets/clips/hero.jpg"
+             muted loop playsinline preload="auto" data-inview></video>
     </div>
   </div>
+
+  <div class="scroll-hint" aria-hidden="true"><span></span></div>
 </section>
 
-<!-- What it does -->
+<!-- three kinds, one pinned phone -->
 <section class="kinds" id="kinds">
-  <div class="wrap">
-    <h2 class="reveal">Say when, or where.<br>Or just what.</h2>
-    <div class="grid3">
-      <article class="kind reveal">
-        <img src="/assets/screens/IMG_2013.png" alt="Lock screen notification: Buy hot sauce at Target" loading="lazy">
-        <p class="tag">Place</p>
-        <h3>“Buy hot sauce next time I’m at Target.”</h3>
-        <p>The reminder arrives as soon as you do.</p>
-      </article>
-      <article class="kind reveal">
-        <img src="/assets/screens/IMG_2002.png" alt="Lest found the time of the next Texans game" loading="lazy">
-        <p class="tag">Event</p>
-        <h3>“Record the next Houston Texans game.”</h3>
-        <p>Lest looks up when it starts and reminds you a little before.</p>
-      </article>
-      <article class="kind reveal">
-        <img src="/assets/screens/IMG_2004.png" alt="The Thoughts tab holding two notes with no time or place yet" loading="lazy">
-        <p class="tag">Thought</p>
-        <h3>“I need to ask James how many cards to get for the party.”</h3>
-        <p>No when or where yet? It waits in Thoughts. Plain time reminders work too: “Call the vet tomorrow at nine.”</p>
-      </article>
-    </div>
+  <div class="kinds-head">
+    <h2 class="reveal">Say when. Say where.<br><em>Or just say it.</em></h2>
+    <div class="rule reveal"></div>
   </div>
-</section>
 
-<!-- How it works: the phone sticks, the steps scroll, the screen tells the story -->
-<section class="how" id="how">
-  <div class="wrap">
-    <h2 class="reveal">How it works</h2>
-  </div>
-  <div class="wrap story">
-    <div class="story-phone reveal" aria-hidden="true">
-      <div class="phone small" id="storyPhone" data-state="1">
-        <div class="screen">
-          <div class="statusbar"><span>9:41</span><span class="island"></span><span class="sig"></span></div>
-          <div class="s s1">
-            <p class="prompt hearing" id="sPrompt">&nbsp;</p>
-            <div class="mic rec"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
-            <div class="under"><div class="wave on"><i></i><i></i><i></i><i></i><i></i></div></div>
-          </div>
-          <div class="s s2">
-            <p class="prompt">What do you want to remember?</p>
-            <div class="mic"><svg class="glyph" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V21h2v-2.06A8 8 0 0 0 20 11h-2z"/></svg><span class="stop"></span></div>
-            <div class="under"><p class="hint">Tap to capture</p></div>
-            <div class="recent"><p class="label">Recent</p>
-              <div class="card new pop"><div class="card-title">Buy hot sauce</div><div class="card-meta found"><span class="ping"></span>at Target · 0.4 mi</div></div>
-              <div class="card"><div class="card-title">Feed the dog</div><div class="card-meta">at home</div></div>
-            </div>
-          </div>
-          <div class="s s3 lock">
-            <p class="lock-date">Saturday, September 19</p>
-            <p class="lock-time">12:35</p>
-            <div class="banner"><img src="/assets/icon.png" alt="" width="34" height="34"><div><b>Lest</b><span>Buy hot sauce at Target</span></div><em>now</em></div>
-          </div>
-        </div>
+  <div class="kinds-inner">
+    <div class="kinds-phone">
+      <div class="phone" style="--pw:318px">
+        <video class="ch on" data-ch="0" src="/assets/clips/place.mp4" poster="/assets/clips/place.jpg" muted loop playsinline preload="auto"></video>
+        <video class="ch" data-ch="1" src="/assets/clips/event.mp4" poster="/assets/clips/event.jpg" muted loop playsinline preload="metadata"></video>
+        <video class="ch" data-ch="2" src="/assets/clips/home.mp4" poster="/assets/clips/home.jpg" muted loop playsinline preload="metadata"></video>
       </div>
     </div>
-    <ol class="story-steps">
-      <li data-step="1"><span class="num">1</span><h3>You say it</h3><p>Transcribed on your iPhone. No audio leaves the phone.</p></li>
-      <li data-step="2"><span class="num">2</span><h3>Lest sets it</h3><p>It finds the when or the where in your sentence: the Target near you, the time of the game.</p></li>
-      <li data-step="3"><span class="num">3</span><h3>It fires there</h3><p>When you arrive, or when the time comes. One notification, in your words.</p></li>
+
+    <ol class="chapters">
+      <li data-ch="0">
+        <span class="tag">Place</span>
+        <h3>&ldquo;Buy hot sauce next time I&rsquo;m at Target.&rdquo;</h3>
+        <p>Lest finds the one near you and arms the reminder there. It arrives as soon as you do.</p>
+      </li>
+      <li data-ch="1">
+        <span class="tag">Event</span>
+        <h3>&ldquo;Record the next Houston Texans game.&rdquo;</h3>
+        <p>It looks up when the game starts, then reminds you a little before. Games, shows, launches.</p>
+      </li>
+      <li data-ch="2">
+        <span class="tag">Home, work, anywhere</span>
+        <h3>&ldquo;Take the chicken out when I get home.&rdquo;</h3>
+        <p>Your places are remembered after the first time. Arriving or leaving, whichever you said.</p>
+      </li>
     </ol>
   </div>
 </section>
 
-<!-- Privacy -->
-<section class="privacy" id="privacy">
-  <div class="wrap narrow reveal">
-    <h2>Your voice and your location stay on your phone.</h2>
-    <p class="lede">Speech is transcribed on the device and place reminders use iOS’s own region monitoring. No account, no sign-up. The <a href="/privacy">privacy policy</a> is short and says exactly what leaves the phone.</p>
+<!-- the payoff -->
+<section class="payoff">
+  <div class="payoff-bg" data-par="0.18"></div>
+  <div class="payoff-copy">
+    <p class="eyebrow reveal">And then</p>
+    <h2 class="reveal">It just<br><em>shows up.</em></h2>
+    <p class="lede reveal">No app open, no list to check. iOS wakes Lest when you cross into the area, and the reminder is waiting on the lock screen in the words you said.</p>
+  </div>
+  <div class="payoff-phone" data-par="0.06">
+    <div class="phone" style="--pw:336px">
+      <video src="/assets/clips/notif.mp4" poster="/assets/clips/notif.jpg"
+             muted loop playsinline preload="none" data-inview></video>
+    </div>
   </div>
 </section>
 
-<!-- Free month -->
+<!-- when it guesses wrong -->
+<section class="aside">
+  <div class="aside-phone" data-par="0.08">
+    <div class="phone" style="--pw:268px">
+      <video src="/assets/clips/map.mp4" poster="/assets/clips/map.jpg"
+             muted loop playsinline preload="none" data-inview></video>
+    </div>
+  </div>
+  <div class="aside-copy">
+    <h3 class="reveal">Wrong Target? Tap the map.</h3>
+    <p class="reveal">Lest picks the closest one. When that is not the one you meant, choose it yourself and Lest remembers for next time.</p>
+  </div>
+</section>
+
+<!-- how -->
+<section class="how" id="how">
+  <div class="wrap">
+    <h2 class="reveal">How it works</h2>
+    <ol class="steps">
+      <li class="reveal"><span class="num">1</span><h3>You say it</h3><p>Speech becomes text on your iPhone. No audio ever leaves the phone.</p></li>
+      <li class="reveal"><span class="num">2</span><h3>Lest sets it</h3><p>It reads your sentence for a when and a where, then finds the store near you or the time of the game.</p></li>
+      <li class="reveal"><span class="num">3</span><h3>It comes back</h3><p>When you arrive, when you leave, or when the time comes. One notification, in your words.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- privacy -->
+<section class="privacy">
+  <div class="wrap narrow reveal">
+    <h2>Your voice and your location stay on your phone.</h2>
+    <p class="lede">Place reminders use the same region monitoring iOS uses for everything else, and nothing about where you go is sent anywhere. No account, no sign-up. The <a href="/privacy">privacy policy</a> is short and says exactly what leaves the phone.</p>
+  </div>
+</section>
+
+<!-- offer -->
 <section class="offer">
   <div class="wrap reveal">
     <p class="eyebrow">Launch offer</p>
@@ -152,13 +156,13 @@
   </div>
 </section>
 
-<!-- FAQ -->
+<!-- faq -->
 <section class="faq">
   <div class="wrap narrow">
     <h2 class="reveal">Questions</h2>
-    <details class="reveal"><summary>Does it work with the app closed?</summary><p>Yes. iOS wakes Lest when you cross into the area. Location has to be set to Always; the app asks once and says why.</p></details>
-    <details class="reveal"><summary>How does it know which Target?</summary><p>It picks the closest one on Apple Maps. Wrong one? Tap the reminder and change it on the map; Lest remembers your choice.</p></details>
-    <details class="reveal"><summary>What if it can’t find the time of something?</summary><p>The reminder still saves and asks you to set the time with a picker. Nothing goes off at a guess.</p></details>
+    <details class="reveal"><summary>Does it work with the app closed?</summary><p>Yes. iOS wakes Lest when you cross into the area. Location has to be set to Always, and the app asks once and says why.</p></details>
+    <details class="reveal"><summary>What if it cannot find the time of something?</summary><p>The reminder still saves and asks you to set the time with a picker. Nothing is ever set at a guess.</p></details>
+    <details class="reveal"><summary>What if there is no when or where yet?</summary><p>It waits in Thoughts. Say it the moment you stop talking and sort it out later.</p></details>
   </div>
 </section>
 
