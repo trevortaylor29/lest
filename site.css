@@ -112,9 +112,9 @@ h1 .w > i { display: inline-block; font-style: normal; transform: translateY(115
 .rule { height: 5px; width: 128px; border-radius: 3px; background: var(--accent); margin-top: 34px; transform-origin: left center; transform: scaleX(0); transition: transform .9s cubic-bezier(.2,.7,.2,1) .15s; opacity: 1; }
 .rule.in { transform: scaleX(1); }
 .kinds-inner { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 70px; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-.kinds-phone { position: sticky; top: 14vh; height: 72vh; display: flex; align-items: center; justify-content: center; }
+.kinds-phone { position: sticky; top: 13vh; height: 74vh; display: flex; align-items: center; justify-content: center; }
 .chapters { list-style: none; margin: 0; padding: 0; }
-.chapters li { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; opacity: .3; transition: opacity .5s ease; }
+.chapters li { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; opacity: .3; transition: opacity .5s ease; }
 .chapters li.active { opacity: 1; }
 .tag { display: inline-block; align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(16,185,129,.42); border-radius: 999px; padding: 5px 11px; margin-bottom: 20px; }
 .chapters h3 { font-size: clamp(24px, 3vw, 36px); margin-bottom: 16px; }
@@ -127,12 +127,6 @@ h1 .w > i { display: inline-block; font-style: normal; transform: translateY(115
               radial-gradient(38% 34% at 22% 62%, rgba(16,185,129,0.14), transparent 70%);
   filter: blur(10px); will-change: transform; }
 .payoff-phone { display: flex; justify-content: center; will-change: transform; }
-
-/* ---------- aside ---------- */
-.aside { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 60px; align-items: center; max-width: var(--max); margin: 0 auto; padding: clamp(50px, 8vh, 110px) 24px; }
-.aside-phone { display: flex; justify-content: center; will-change: transform; }
-.aside-copy h3 { margin-bottom: 14px; }
-.aside-copy p { color: rgba(255,255,255,0.66); font-size: 18px; max-width: 460px; }
 
 /* ---------- how (the one light field) ---------- */
 .how { scroll-margin-top: 72px; background: var(--paper); color: var(--ink); padding: clamp(80px, 12vh, 140px) 0; margin-top: clamp(40px, 6vh, 80px); }
@@ -179,13 +173,15 @@ details p { color: rgba(255,255,255,0.7); margin-top: 12px; max-width: 640px; }
   .glow { right: -20%; top: 30%; }
   .scroll-hint { display: none; }
 
+  /* No pinning on a phone. A sticky element in a one-column grid row has
+     almost no room to travel, so it jams at the top with its backdrop over
+     the text. Each chapter carries its own phone instead. */
   .kinds-inner { grid-template-columns: 1fr; gap: 0; }
-  .kinds-phone { top: 0; height: 52svh; padding-top: 70px; z-index: 1; }
-  .kinds-phone::before { content: ""; position: absolute; left: -50vw; right: -50vw; top: -2px; bottom: 0;
-    background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 76%, transparent 100%); z-index: -1; }
-  .kinds-phone .phone { --pw: min(206px, 52vw) !important; }
-  .chapters li { min-height: 58svh; justify-content: flex-end; padding-bottom: 5vh; text-align: center; align-items: center; }
-  .chapters li:last-child { min-height: 48svh; }
+  .kinds-phone { display: none; }
+  .chapters li { display: block; min-height: 0; opacity: 1; text-align: center;
+                 padding: 0 0 clamp(64px, 11vh, 104px); }
+  .chapters li .phone { --pw: min(274px, 70vw) !important; margin: 0 auto 32px; }
+  .chapters .phone .ch { position: static; inset: auto; width: 100%; height: 100%; opacity: 1; }
   .chapters p { margin-inline: auto; }
   .tag { align-self: center; }
 
@@ -194,16 +190,11 @@ details p { color: rgba(255,255,255,0.7); margin-top: 12px; max-width: 640px; }
   .payoff-copy { order: 1; }
   .payoff-phone { order: 2; }
 
-  .aside { grid-template-columns: 1fr; gap: 36px; text-align: center; }
-  .aside-copy p { margin-inline: auto; }
-  .aside-phone { order: 2; }
-  .aside-copy { order: 1; }
-
   .steps { grid-template-columns: 1fr; }
 }
 @media (max-width: 420px) {
   .hero .phone { --pw: min(300px, 78vw) !important; }
-  .payoff .phone, .aside .phone { --pw: min(290px, 76vw) !important; }
+  .payoff .phone { --pw: min(292px, 76vw) !important; }
 }
 
 /* ---------- legal pages reuse a simpler layout ---------- */
